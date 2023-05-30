@@ -1,3 +1,6 @@
+# build proto-gen-docs
+* go build -o bin/protoc-gen-doc ./cmd/protoc-gen-doc
+
 # protoc-gen-doc
 
 [![CI Status][ci-svg]][ci-url]

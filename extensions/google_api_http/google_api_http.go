@@ -23,7 +23,7 @@ func getRule(r *annotations.HttpRule) (rule HTTPRule) {
 	switch r.GetPattern().(type) {
 	case *annotations.HttpRule_Get:
 		rule.Method = http.MethodGet
-		rule.Pattern = r.GetGet()
+		rule.Pattern = "day la parrtenr"
 	case *annotations.HttpRule_Put:
 		rule.Method = http.MethodPut
 		rule.Pattern = r.GetPut()
