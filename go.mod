@@ -5,6 +5,7 @@ go 1.17
 require (
 	github.com/Masterminds/semver v1.4.2 // indirect
 	github.com/Masterminds/sprig v2.15.0+incompatible
+	github.com/adjustmode1/protokit v0.2.1
 	github.com/aokoli/goutils v1.0.1 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.3.0-java
 	github.com/gogo/protobuf v1.3.0 // indirect
@@ -12,7 +13,6 @@ require (
 	github.com/huandu/xstrings v1.0.0 // indirect
 	github.com/imdario/mergo v0.3.4 // indirect
 	github.com/mwitkow/go-proto-validators v0.3.2
-	github.com/pseudomuto/protokit v0.2.0
 	github.com/stretchr/testify v1.6.1
 	google.golang.org/api v0.58.0
 	google.golang.org/genproto v0.0.0-20210917145530-b395a37504d4

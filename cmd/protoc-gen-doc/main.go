@@ -14,7 +14,7 @@
 package main
 
 import (
-	"github.com/pseudomuto/protokit"
+	"github.com/adjustmode1/protokit"
 
 	"log"
 	"os"

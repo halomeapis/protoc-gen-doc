@@ -8,9 +8,9 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/adjustmode1/protokit"
 	"github.com/golang/protobuf/proto"
 	plugin_go "github.com/golang/protobuf/protoc-gen-go/plugin"
-	"github.com/pseudomuto/protokit"
 )
 
 // PluginOptions encapsulates options for the plugin. The type of renderer, template file, and the name of the output
