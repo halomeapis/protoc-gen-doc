@@ -8,7 +8,7 @@ import (
 
 	"github.com/adjustmode1/protokit"
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
-	"github.com/pseudomuto/protoc-gen-doc/extensions"
+	"github.com/halomeapis/protoc-gen-doc/extensions"
 )
 
 // Template is a type for encapsulating all the parsed files, messages, fields, enums, services, extensions, etc. into

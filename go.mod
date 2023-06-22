@@ -1,11 +1,10 @@
-module github.com/pseudomuto/protoc-gen-doc
+module github.com/halomeapis/protoc-gen-doc
 
 go 1.17
 
 require (
 	github.com/Masterminds/semver v1.4.2 // indirect
 	github.com/Masterminds/sprig v2.15.0+incompatible
-	github.com/adjustmode1/protokit v0.2.1
 	github.com/aokoli/goutils v1.0.1 // indirect
 	github.com/envoyproxy/protoc-gen-validate v0.3.0-java
 	github.com/gogo/protobuf v1.3.0 // indirect
@@ -37,3 +36,5 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c // indirect
 )
+
+replace github.com/pseudomuto/protokit => github.com/adjustmode1/protokit v0.0.0-20230622102203-4ed32eb2e65b

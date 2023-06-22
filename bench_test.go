@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/adjustmode1/protokit/utils"
-	. "github.com/pseudomuto/protoc-gen-doc"
+	. "github.com/halomeapis/protoc-gen-doc"
 )
 
 func BenchmarkParseCodeRequest(b *testing.B) {
