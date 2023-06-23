@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/golang/protobuf/protoc-gen-go/descriptor"
-	"github.com/pseudomuto/protoc-gen-doc/extensions"
+	"github.com/halomeapis/protoc-gen-doc/extensions"
 	"github.com/pseudomuto/protokit"
 )
 
@@ -49,18 +49,28 @@ func NewTemplate(descs []*protokit.FileDescriptor) *Template {
 		}
 
 		// Recursively add nested types from messages
-		var addFromMessage func(*protokit.Descriptor)
-		addFromMessage = func(m *protokit.Descriptor) {
-			file.Messages = append(file.Messages, parseMessage(m))
+		var addFromMessage func(*protokit.Descriptor, string)
+		addFromMessage = func(m *protokit.Descriptor, description string) {
+			file.Messages = append(file.Messages, parseMessage(m, description))
 			for _, e := range m.Enums {
 				file.Enums = append(file.Enums, parseEnum(e))
 			}
 			for _, n := range m.Messages {
-				addFromMessage(n)
+				var temp = "temp\ntemps"
+				for x := 0; x < len(m.Fields); x++ {
+					if strings.Contains(strings.ToLower(n.GetLongName()), strings.ToLower(m.Fields[x].GetLongName())) {
+						temp = m.Fields[x].GetComments().GetLeading()
+					}
+				}
+				if len(m.Fields) > 0 {
+					addFromMessage(n, temp)
+				} else {
+					addFromMessage(n, "")
+				}
 			}
 		}
 		for _, m := range f.Messages {
-			addFromMessage(m)
+			addFromMessage(m, m.GetLongName())
 		}
 
 		for _, s := range f.Services {
@@ -435,7 +445,7 @@ func parseFileExtension(pe *protokit.ExtensionDescriptor) *FileExtension {
 	}
 }
 
-func parseMessage(pm *protokit.Descriptor) *Message {
+func parseMessage(pm *protokit.Descriptor, desciption string) *Message {
 	msg := &Message{
 		Name:          pm.GetName(),
 		LongName:      pm.GetLongName(),
@@ -453,8 +463,13 @@ func parseMessage(pm *protokit.Descriptor) *Message {
 		msg.Extensions = append(msg.Extensions, parseMessageExtension(ext))
 	}
 
-	for _, f := range pm.Fields {
-		msg.Fields = append(msg.Fields, parseMessageField(f, pm.GetOneofDecl()))
+	for index, f := range pm.Fields {
+		var temp_description = f.Comments.GetTrailing()
+		if desciption != "" && strings.Contains(desciption, "\n") {
+			temp_description = strings.Split(desciption, "\n")[index%2]
+		}
+		msg.Fields = append(msg.Fields, parseMessageField(f, pm.GetOneofDecl(), temp_description))
+		// msg.Fields = append(msg.Fields, parseMessageField(f, pm.GetOneofDecl(), ""))
 	}
 
 	return msg
@@ -469,12 +484,17 @@ func parseMessageExtension(pe *protokit.ExtensionDescriptor) *MessageExtension {
 	}
 }
 
-func parseMessageField(pf *protokit.FieldDescriptor, oneofDecls []*descriptor.OneofDescriptorProto) *MessageField {
+func parseMessageField(pf *protokit.FieldDescriptor, oneofDecls []*descriptor.OneofDescriptorProto, parentDescription string) *MessageField {
 	t, lt, ft := parseType(pf)
 
+	var temp_description = parentDescription
+	// var temp_description = pf.GetComments().GetLeading() + pf.GetComments().GetTrailing()
+	// if parentDescription == "" {
+	// 	temp_description = pf.Comments.GetLeading() + pf.Comments.GetTrailing()
+	// }
 	m := &MessageField{
 		Name:         pf.GetName(),
-		Description:  description(pf.GetComments().String()),
+		Description:  description(temp_description),
 		Label:        labelName(pf.GetLabel(), pf.IsProto3(), pf.GetProto3Optional()),
 		Type:         t,
 		LongType:     lt,
